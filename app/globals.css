@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Inter variable font, self-hosted via @fontsource-variable/inter */
+    --font-inter: "Inter Variable", "Inter";
+  }
+
+  html {
+    /* Smooth anchor scrolling + offset so the sticky navbar never covers headings */
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  /* Kill horizontal scroll at the root. `overflow-x: clip` keeps
+     position: sticky working (overflow-x: hidden would break it). */
+  html,
+  body {
+    @apply bg-ink text-white antialiased;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  /* Media and embeds can never force the page wider than the viewport */
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  iframe {
+    border: 0;
+  }
+
+  /* Long words / URLs wrap instead of overflowing on small screens */
+  h1, h2, h3, p, a, li {
+    overflow-wrap: break-word;
+  }
+
+  /* Remove the blue flash on tap, keep a visible keyboard focus ring */
+  a,
+  button,
+  input,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    @apply outline-none ring-2 ring-white ring-offset-2 ring-offset-black;
+  }
+
+  /* iOS zooms the page when an input has a font-size under 16px */
+  @media (max-width: 767px) {
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
+  }
+
+  ::selection {
+    @apply bg-white text-black;
+  }
+
+  /* Minimal ash scrollbar to match the dark theme */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-black;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ash-700 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ash-500;
+  }
+}
+
+@layer components {
+  /* Section shell: consistent vertical rhythm + max width */
+  .section {
+    @apply mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 sm:py-28;
+  }
+
+  /* Small uppercase eyebrow label above section titles */
+  .eyebrow {
+    @apply text-[11px] font-medium uppercase tracking-widest2 text-ash-400;
+  }
+
+  .section-title {
+    @apply mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl;
+  }
+
+  .section-sub {
+    @apply mt-4 max-w-2xl text-sm leading-relaxed text-ash-300 sm:text-base;
+  }
+
+  /* Primary (white) and ghost (ash outline) buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all duration-300;
+  }
+  .btn-primary {
+    @apply btn bg-white text-black hover:bg-ash-200 hover:shadow-[0_0_30px_-8px_rgba(255,255,255,0.55)];
+  }
+  .btn-ghost {
+    @apply btn border border-ash-700 text-white hover:border-white hover:bg-white/5;
+  }
+
+  .card {
+    @apply rounded-2xl border border-ash-800 bg-ink-card transition-colors duration-300 hover:border-ash-600;
+  }
+
+  /* Thin gradient divider between sections */
+  /* Guarantees a >=44x44px hit area (WCAG 2.5.5) on small icon links */
+  .tap-target {
+    @apply relative;
+  }
+  .tap-target::after {
+    content: "";
+    @apply absolute left-1/2 top-1/2 h-11 w-11 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-ash-700 to-transparent;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
