@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import UpcomingEvent from "@/components/UpcomingEvent";
 import Music from "@/components/Music";
 import VideoGallery from "@/components/VideoGallery";
 import Contact from "@/components/Contact";
@@ -9,7 +10,7 @@ import { site } from "@/lib/site";
 
 /**
  * Home — single-page artist profile.
- * Section order: Hero → About → Music → Videos → Contact → Footer.
+ * Section order: Hero → About → Event → Music → Videos → Contact → Footer.
  */
 export default function Home() {
   // Structured data so search engines understand this is a musician's site
@@ -41,6 +42,7 @@ export default function Home() {
       <main>
         <Hero />
         <About />
+        <UpcomingEvent />
         <Music />
         <VideoGallery />
         <Contact />

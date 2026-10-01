@@ -8,3 +8,4 @@ Drop the real photos here using these exact file names — no code changes neede
 | `about-image.jpg`| About section portrait | 1200 × 1500 (4:5 portrait) |
 
 `hero-bg.jpg` is also used as the Open Graph / social share preview image.
+| `event-flyer.jpg`| Upcoming Event flyer | 1200 × 1500 (4:5 portrait) |
