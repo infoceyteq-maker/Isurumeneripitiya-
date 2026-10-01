@@ -20,7 +20,7 @@ export default function Home() {
     alternateName: site.fullName,
     genre: "Sinhala, Pop",
     url: "https://isurumeneripitiya.com",
-    image: "/images/hero.jpg",
+    image: "/images/hero-bg.jpg",
     email: site.email,
     telephone: site.phone,
     address: {

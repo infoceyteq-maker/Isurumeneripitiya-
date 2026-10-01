@@ -25,13 +25,13 @@ export const metadata: Metadata = {
     title: `${site.name} — ${site.role}`,
     description: `Official website of ${site.fullName}, singer and music director based in ${site.location}.`,
     siteName: site.name,
-    images: ["/images/hero.jpg"],
+    images: ["/images/hero-bg.jpg"],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} — ${site.role}`,
     description: `Official website of ${site.fullName}, singer and music director.`,
-    images: ["/images/hero.jpg"],
+    images: ["/images/hero-bg.jpg"],
   },
   icons: { icon: "/favicon.svg" },
 };
