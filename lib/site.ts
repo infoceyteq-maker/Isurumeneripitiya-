@@ -66,16 +66,21 @@ export const releases = [
   },
 ] as const;
 
+/** Direct link to the channel's video tab (used by the gallery CTA). */
+export const youtubeVideosUrl =
+  "https://www.youtube.com/@isurumeneripitiya/videos";
+
 /**
- * Video gallery items.
- * ⚠️ Replace each `id` with the real YouTube video ID from @isurumeneripitiya
- * (the part after `watch?v=`). Nothing else needs to change.
+ * Video gallery items — real uploads from the official channel
+ * (@isurumeneripitiya).
+ *
+ * `id` is the YouTube video ID: the part after `watch?v=`.
+ * To add or reorder videos, just edit this array — the grid maps over it.
  */
 export const videos = [
-  { id: "dQw4w9WgXcQ", title: "Official Music Video", meta: "Studio Release" },
-  { id: "ScMzIvxBSi4", title: "Live Performance", meta: "Stage / Live" },
-  { id: "jNQXAC9IVRw", title: "Acoustic Session", meta: "Unplugged" },
-  { id: "9bZkp7q19f0", title: "Studio Sessions", meta: "Behind the Scenes" },
-  { id: "kJQP7kiw5Fk", title: "Music Direction Reel", meta: "Production" },
-  { id: "3JZ_D3ELwOQ", title: "Cover Collection", meta: "Covers" },
+  { id: "fgTPYG7A1WE", title: "Nura Denuwan", meta: "Official Video" },
+  { id: "uHPfhhq8QQY", title: "Sanda Awith Weediyata", meta: "Official Video" },
+  { id: "aClkLvw6Z5M", title: "Nil Warnitha", meta: "Live Performance" },
+  { id: "IyLg1kFjvUw", title: "Latest Video", meta: "New Release" },
+  { id: "ntRDFsQjw_Y", title: "Nil Warnitha", meta: "Music Video" },
 ] as const;
