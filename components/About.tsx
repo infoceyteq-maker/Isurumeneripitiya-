@@ -3,6 +3,18 @@ import { GraduationCap, Mic2, SlidersHorizontal } from "lucide-react";
 import Reveal from "./Reveal";
 import { site } from "@/lib/site";
 
+/**
+ * Portrait for the About section.
+ *
+ * Currently `null` → the section renders as a clean, image-free text layout.
+ *
+ * ▶ To show the real photo later:
+ *   1. Put the file at  /public/images/about-image.jpg  (4:5 portrait works best)
+ *   2. Change this line to:  const aboutImage: string | null = "/images/about-image.jpg";
+ *   The two-column layout (portrait left, bio right) comes back automatically.
+ */
+const aboutImage: string | null = null;
+
 /** Short list of disciplines rendered as cards under the bio. */
 const disciplines = [
   {
@@ -24,53 +36,57 @@ const disciplines = [
 
 /**
  * About
- * Two-column section: portrait on the left, biography on the right.
- * Stacks to a single column (image first, then text) on mobile.
+ * Biography of the artist.
  *
- * The portrait lives at /public/images/about-image.jpg and is rendered with
- * next/image (`fill` inside a fixed 4:5 frame) so it is automatically
- * optimised, lazy-loaded and served in modern formats.
+ * Layout adapts to whether a portrait is available:
+ *  - with `aboutImage`  → two columns (portrait left, bio right), stacked on mobile.
+ *  - without            → a centred, typographic text layout.
  */
 export default function About() {
+  const hasImage = Boolean(aboutImage);
+
   return (
     <section
       id="about"
       className="relative border-t border-gray-800 bg-black px-6 py-20 sm:px-8 md:py-28"
     >
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-14 lg:gap-20">
-        {/* ---------- Portrait (left on desktop, top on mobile) ---------- */}
-        <Reveal from="left">
-          <figure className="group relative mx-auto w-full max-w-md md:max-w-none">
-            {/* Thin offset frame for a premium, gallery-like feel */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -inset-3 rounded-2xl border border-gray-800/70 transition-colors duration-500 group-hover:border-gray-700 sm:-inset-4"
-            />
-
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-gray-800 bg-black shadow-2xl shadow-black/80">
-              <Image
-                src="/images/about-image.jpg"
-                alt={`${site.fullName} — ${site.role}, portrait with acoustic guitar`}
-                fill
-                sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 100vw"
-                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-              />
-
-              {/* Gentle vignette so the photo melts into the black section */}
+      <div
+        className={
+          hasImage
+            ? "mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-14 lg:gap-20"
+            : "mx-auto max-w-3xl"
+        }
+      >
+        {/* ---------- Portrait (only when an image is set) ---------- */}
+        {hasImage && (
+          <Reveal from="left">
+            <figure className="group relative mx-auto w-full max-w-md md:max-w-none">
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
+                className="pointer-events-none absolute -inset-3 rounded-2xl border border-gray-800/70 transition-colors duration-500 group-hover:border-gray-700 sm:-inset-4"
               />
-            </div>
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-gray-800 bg-black shadow-2xl shadow-black/80">
+                <Image
+                  src={aboutImage as string}
+                  alt={`${site.fullName} — ${site.role}`}
+                  fill
+                  sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
+                />
+              </div>
+              <figcaption className="mt-4 text-center text-[11px] uppercase tracking-widest2 text-gray-500 md:text-left">
+                {site.fullName} · {site.location}
+              </figcaption>
+            </figure>
+          </Reveal>
+        )}
 
-            <figcaption className="mt-4 text-center text-[11px] uppercase tracking-widest2 text-gray-500 md:text-left">
-              {site.fullName} · {site.location}
-            </figcaption>
-          </figure>
-        </Reveal>
-
-        {/* ---------- Biography (right on desktop, below on mobile) ---------- */}
-        <div>
+        {/* ---------- Biography ---------- */}
+        <div className={hasImage ? "" : "text-center"}>
           <Reveal>
             <p className="text-[11px] font-medium uppercase tracking-widest2 text-gray-500">
               About the artist
@@ -81,11 +97,19 @@ export default function About() {
             </h2>
 
             {/* Accent bar */}
-            <div className="mb-6 mt-5 h-1 w-16 rounded-full bg-gray-500" />
+            <div
+              className={`mb-6 mt-5 h-1 w-16 rounded-full bg-gray-500 ${
+                hasImage ? "" : "mx-auto"
+              }`}
+            />
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="space-y-5 text-base leading-relaxed text-gray-400">
+            <div
+              className={`space-y-5 text-base leading-relaxed text-gray-400 ${
+                hasImage ? "" : "text-left sm:text-center"
+              }`}
+            >
               <p>
                 <span className="font-medium text-white">
                   Isuru Meneripitiya
@@ -113,10 +137,9 @@ export default function About() {
                 <span className="text-gray-200">music classes</span> he mentors
                 young vocalists and musicians in technique, theory and stage
                 confidence, passing on the discipline behind the art. On stage,
-                his{" "}
-                <span className="text-gray-200">live performances</span> — from
-                intimate acoustic sessions to full-band concerts — are where
-                that craft truly comes alive.
+                his <span className="text-gray-200">live performances</span> —
+                from intimate acoustic sessions to full-band concerts — are
+                where that craft truly comes alive.
               </p>
 
               <p>
@@ -131,7 +154,7 @@ export default function About() {
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {disciplines.map((d, i) => (
               <Reveal key={d.title} delay={0.15 + i * 0.08}>
-                <div className="h-full rounded-xl border border-gray-800 bg-neutral-950 p-5 transition-colors duration-300 hover:border-gray-600">
+                <div className="h-full rounded-xl border border-gray-800 bg-neutral-950 p-5 text-left transition-colors duration-300 hover:border-gray-600">
                   <d.icon className="h-5 w-5 text-gray-400" aria-hidden />
                   <h3 className="mt-4 text-sm font-semibold text-white">
                     {d.title}
