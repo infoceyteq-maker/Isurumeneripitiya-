@@ -14,8 +14,56 @@
     scroll-padding-top: 5.5rem;
   }
 
+  /* Kill horizontal scroll at the root. `overflow-x: clip` keeps
+     position: sticky working (overflow-x: hidden would break it). */
+  html,
   body {
     @apply bg-ink text-white antialiased;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  /* Media and embeds can never force the page wider than the viewport */
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  iframe {
+    border: 0;
+  }
+
+  /* Long words / URLs wrap instead of overflowing on small screens */
+  h1, h2, h3, p, a, li {
+    overflow-wrap: break-word;
+  }
+
+  /* Remove the blue flash on tap, keep a visible keyboard focus ring */
+  a,
+  button,
+  input,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    @apply outline-none ring-2 ring-white ring-offset-2 ring-offset-black;
+  }
+
+  /* iOS zooms the page when an input has a font-size under 16px */
+  @media (max-width: 767px) {
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
   }
 
   ::selection {
@@ -72,6 +120,15 @@
   }
 
   /* Thin gradient divider between sections */
+  /* Guarantees a >=44x44px hit area (WCAG 2.5.5) on small icon links */
+  .tap-target {
+    @apply relative;
+  }
+  .tap-target::after {
+    content: "";
+    @apply absolute left-1/2 top-1/2 h-11 w-11 -translate-x-1/2 -translate-y-1/2;
+  }
+
   .hairline {
     @apply h-px w-full bg-gradient-to-r from-transparent via-ash-700 to-transparent;
   }

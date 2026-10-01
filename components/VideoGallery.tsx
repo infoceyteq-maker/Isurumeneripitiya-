@@ -78,7 +78,7 @@ export default function VideoGallery() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Open ${video.title} on YouTube`}
-                    className="shrink-0 text-ash-500 transition-colors duration-300 hover:text-white"
+                    className="tap-target shrink-0 text-ash-500 transition-colors duration-300 hover:text-white"
                   >
                     <Youtube className="h-4 w-4" />
                   </a>
