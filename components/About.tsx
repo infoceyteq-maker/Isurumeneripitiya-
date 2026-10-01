@@ -1,19 +1,36 @@
+import fs from "node:fs";
+import path from "node:path";
 import Image from "next/image";
 import { GraduationCap, Mic2, SlidersHorizontal } from "lucide-react";
 import Reveal from "./Reveal";
 import { site } from "@/lib/site";
 
 /**
- * Portrait for the About section.
+ * Portrait for the About section — fully automatic.
  *
- * Currently `null` → the section renders as a clean, image-free text layout.
+ * This is a Server Component, so we can simply check whether the photo exists
+ * on disk at render/build time:
+ *   • file present  → two-column layout (portrait left, bio right)
+ *   • file missing  → clean, image-free text layout (no broken image, ever)
  *
- * ▶ To show the real photo later:
- *   1. Put the file at  /public/images/about-image.jpg  (4:5 portrait works best)
- *   2. Change this line to:  const aboutImage: string | null = "/images/about-image.jpg";
- *   The two-column layout (portrait left, bio right) comes back automatically.
+ * ▶ To show the real photo: just drop it at
+ *      /public/images/about-image.jpg      (4:5 portrait works best)
+ *   and restart / redeploy. No code changes required.
+ *   .jpg, .jpeg, .png and .webp are all detected.
  */
-const aboutImage: string | null = null;
+const CANDIDATES = [
+  "/images/about-image.jpg",
+  "/images/about-image.jpeg",
+  "/images/about-image.png",
+  "/images/about-image.webp",
+];
+
+function findAboutImage(): string | null {
+  for (const rel of CANDIDATES) {
+    if (fs.existsSync(path.join(process.cwd(), "public", rel))) return rel;
+  }
+  return null;
+}
 
 /** Short list of disciplines rendered as cards under the bio. */
 const disciplines = [
@@ -43,6 +60,7 @@ const disciplines = [
  *  - without            → a centred, typographic text layout.
  */
 export default function About() {
+  const aboutImage = findAboutImage();
   const hasImage = Boolean(aboutImage);
 
   return (
